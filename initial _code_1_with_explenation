@@ -1,0 +1,116 @@
+# importing random since the module is used in the below items. 
+import random
+
+#stages holds the ASCII art printed depending on the stage you are at in the game.  each picture represents a stage closer to losing. 
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+#outside the while loop below these variables hold the resources needed for the game: 
+#end_of_game: holds a while loop for a true statement until it holds false.  forcing the code to keep asking questions. 
+#word_list: holds any word you would like used in hangman for the user to guess. 
+#Chosen_word: chooses a random word from the list above
+#variable to use for simplicity when calling out for loops.
+#lives holds a count down which eventually switches end_of_game to True.  "end the game"
+end_of_game = False
+word_list = ["ardvark", "baboon", "camel"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+lives = 6
+
+#Testing code: use code for testing (if needed).
+#print(f'Pssst, the solution is {chosen_word}.')
+
+#Create blanks in the list to be filled with words that may be guessed with the guess variable
+display = []
+for _ in range(word_length):
+    display += "_"
+
+#holds a true statement for continuous processing. input prompts user to choose word and store it. 
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+
+    #this section allows a scroll through the        chosen_word list to have a variable that         holds all its letters stored in chosen_word      variable and places them in a variable           letter.  letter print continuosly.
+    for position in range(word_length):
+        letter = chosen_word[position]
+
+        #stored under the above code it forces           the loop to check if letter equals               guess.  if it does = each other it will          store letter into display[position] one          by one this code was hard for me to              understand. 
+        if letter == guess:
+            display[position] = letter
+
+    #this code adds a counter if the user            does not guess the correct word.  it             compares the guess letters with letters          inside the chosen_word list. so it takes         guess and compares it to the list if it          exist if it exist then it leave lives            variable alone if not, then it takes away        from life.
+    #if lives variable get to 0 then it switches     end_of_game variable to true which ends the      game
+    _count = display.count(guess)
+    if _count < 1:
+      lives -= 1
+    if lives == 0:
+      end_of_game = True
+      print("You loss!")
+      
+    #Join all the elements in the list and turn      it into a String.
+    print(f"{' '.join(display)}")
+
+    #Check if user has got all letters. checks       if there is any empty space left.  if none       left then it force game to close: user win
+    if "_" not in display:
+        end_of_game = True
+        print("You win.")
+
+    #prints ASCII art dependent on lives             variable count.  as count decrease it also       decreases the position of the ASCII art list     "stages."  which tells the game to switch        picture instead of adding picture.
+    
+    for stage in range(0,len(stages)):  
+      hangman = stages[stage]
+      if lives == stage:
+        print(stages[stage])
