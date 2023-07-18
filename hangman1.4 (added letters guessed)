@@ -1,0 +1,115 @@
+
+import random
+import os
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+print('''888                                                           
+888                                                           
+888                                                           
+88888b.  8888b. 88888b.  .d88b. 88888b.d88b.  8888b. 88888b.  
+888 "88b    "88b888 "88bd88P"88b888 "888 "88b    "88b888 "88b 
+888  888.d888888888  888888  888888  888  888.d888888888  888 
+888  888888  888888  888Y88b 888888  888  888888  888888  888 
+888  888"Y888888888  888 "Y88888888  888  888"Y888888888  888 
+                             888                              
+                        Y8b d88P                              
+                         "Y88P"                               ''')
+print("Welcome to hangmen")
+end_of_game = False
+word_list = ["ardvark", "baboon", "camel"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+lives = 6
+letters_guessed = []
+
+display = []
+for _ in range(word_length):
+    display += "_"
+
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+    os.system('clear')
+    letters_guessed += guess
+    print(f"You have guessed the following letters: \n{letters_guessed}")
+
+    print(" ")
+    for position in range(word_length):
+        letter = chosen_word[position]
+
+        if letter == guess:
+            display[position] = letter
+
+    
+  
+    _count = display.count(guess)
+    if _count < 1:
+      lives -= 1
+    if lives == 0:
+      end_of_game = True
+      print("You loss!")
+      
+    print(f"{' '.join(display)}")
+
+    if "_" not in display:
+        end_of_game = True
+        print("You win.")
+    
+    for stage in range(0,len(stages)):  
+      hangman = stages[stage]
+      if lives == stage:
+        print(stages[stage])
